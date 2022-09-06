@@ -1,3 +1,15 @@
+#map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0%;
+    padding: 0%;
+}
+
+.map-icon {
+    width: 50px;
+}
+
 .marker {
     background-image: url('/image/marker.png');
     background-size: cover;

@@ -1,0 +1,16 @@
+{
+    "theme_color": "#72f29d",
+    "background_color": "#02051f",
+    "short_name": "Celar",
+    "name": "Celar",
+    "display": "standalone",
+    "orientation": "portrait",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "512x512",
+            "type": "/icon.png"
+        }
+    ]
+}

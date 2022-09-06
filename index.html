@@ -4,6 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>Celar</title>
+        <link rel="manifest" href="manifest.json">
+        <script src="/script/sw_register.js"></script>
+        <link rel="icon" type="image/png" href="/icon.png">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="white">
+        <meta name="apple-mobile-web-app-title" content="Celar">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
@@ -12,17 +18,13 @@
         <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet"/>
         <script src="/auth.js"></script>
         <link href="/css/main.css" rel="stylesheet">
+        <link href="/css/map.css" rel="stylesheet">
         <script src="/script/location.js"></script>
     </head>
     <body>
-        <h1>Celar</h1>
-        <button onclick="setLocationWatch()">Start watching</button>
-        <button onclick="clearLocationWatch()">Stop watching</button>
-        <button onclick="createMap()">Create Map</button>
-        <div id="loc"></div>
         <div id="map"></div>
         <template id="marker">
-            <img id="marker-icon" class="map-icon" src="/image/marker.png" alt="marker">
+            <img id="marker-icon" class="map-icon" alt="marker">
         </template>
     </body>
     <script src="/script/map.js"></script>
