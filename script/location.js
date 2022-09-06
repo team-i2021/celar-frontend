@@ -1,5 +1,5 @@
 let count = 0;
-let watcher;
+let locator;
 
 let lat;
 let lng;
@@ -9,7 +9,7 @@ navigator.geolocation.getCurrentPosition(mapinit, initerror);
 
 
 function clearLocationWatch() {
-    navigator.geolocation.clearWatch(watcher);
+    navigator.geolocation.clearWatch(locator);
 }
 
 function convertPosition(position) {
@@ -18,11 +18,13 @@ function convertPosition(position) {
 }
 
 function mapinit(position) {
+    // 最初に一度だけ呼び出される関数。
     const lat_pos = position.coords.latitude;
     const lng_pos = position.coords.longitude;
     createMap(lat_pos, lng_pos);
     setInterval(setLocation, 1000);
-    watcher = navigator.geolocation.watchPosition(convertPosition, locationError, {"enableHighAccuracy": true, "timeout": 500, "maximumAge": 500});
+    navigator.geolocation.clearWatch(locator);
+    locator = navigator.geolocation.watchPosition(convertPosition, locationError, {"enableHighAccuracy": true, "timeout": 500, "maximumAge": 500});
 }
 
 function initerror(e) {
