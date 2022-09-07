@@ -11,12 +11,11 @@ const UserUUID = 1234567890
 let markers = {}
 
 
-
-function createMap(lat, lng){
+const createMap = (lat, lng) => {
   map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/nattyantv/cl7orubyd001514lfipfduov1',
-    center: { lat: lat, lng: lng },
+    center: { lat: posdata.coords.latitude, lng: posdata.coords.longitude },
     zoom: 15
   });
 
@@ -24,10 +23,10 @@ function createMap(lat, lng){
     const template = document.getElementById('marker');
     const clone = document.importNode(template.content, true);
     let el = clone.firstElementChild;
-    el.src = user["icon"];
+    el.children[0].src = user["icon"];
 
     markers[user["uuid"]] = new mapboxgl.Marker(el)
-      .setLngLat({ lat: lat, lng: lng })
+      .setLngLat({ lat: posdata.coords.latitude, lng: posdata.coords.longitude })
       .addTo(map);
   }
 }
@@ -47,7 +46,18 @@ setInterval(
 
 
 function setLocation() {
-  markers[UserUUID].setLngLat({ lat: lat, lng: lng })
+  let main_marker = markers[UserUUID]
+  main_marker.setLngLat({ lat: posdata.coords.latitude, lng: posdata.coords.longitude })
+  let marker_html = main_marker.getElement()
+  posdata.coords.speed = 22.22;
+  if (Math.trunc(posdata.coords.speed * 3.6) != 0) {
+    marker_html.children[1].innerHTML = Math.trunc(posdata.coords.speed * 3.6) + "km/h"
+  }
+}
+
+function positionReset() {
+  map.setCenter({ lat: posdata.coords.latitude, lng: posdata.coords.longitude });
+  map.setZoom(15);
 }
 
 // マーカーの位置は、Marker.setLngLat(LngLatLike)で変更できる。

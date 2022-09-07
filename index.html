@@ -2,7 +2,7 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
         <title>Celar</title>
         <link rel="manifest" href="manifest.json">
         <script src="/script/sw_register.js"></script>
@@ -24,8 +24,13 @@
     <body>
         <div id="map"></div>
         <template id="marker">
-            <img id="marker-icon" class="map-icon" alt="marker">
+            <div>
+                <!-- マーカー部分 -->
+                <img id="marker-icon" class="map-icon" alt="marker">
+                <div id="speed" class="marker-speed"></div>
+            </div>
         </template>
+        <img class="current" src="/sprite/location_on_black_24dp.svg" alt="Current position" onclick="positionReset()">
     </body>
     <script src="/script/map.js"></script>
 </html>

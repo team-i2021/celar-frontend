@@ -5,3 +5,24 @@ html {
 body {
     margin: 0%;
 }
+
+.current {
+    position: absolute;
+    z-index: 5;
+    width: 50px;
+    text-align: center;
+    left: calc(50% - 50px);
+    bottom: 25%;
+    height: 50px;
+    border: 4px solid;
+    border-color: #000000;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+/*
+ (権利表記を消しちゃう禁断のCSS)
+ .mapboxgl-control-container{
+     display: none;
+ }
+*/
