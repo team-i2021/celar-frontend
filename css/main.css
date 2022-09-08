@@ -11,7 +11,7 @@ body {
     z-index: 5;
     width: 50px;
     text-align: center;
-    left: calc(50% - 50px);
+    left: calc(50% - 46px);
     bottom: 25%;
     height: 50px;
     border: 4px solid;
