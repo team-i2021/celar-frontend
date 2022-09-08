@@ -49,9 +49,10 @@ function setLocation() {
   let main_marker = markers[UserUUID]
   main_marker.setLngLat({ lat: posdata.coords.latitude, lng: posdata.coords.longitude })
   let marker_html = main_marker.getElement()
-  posdata.coords.speed = 22.22;
-  if (Math.trunc(posdata.coords.speed * 3.6) != 0) {
+  if (Math.trunc(posdata.coords.speed * 3.6) >= 1) {
     marker_html.children[1].innerHTML = Math.trunc(posdata.coords.speed * 3.6) + "km/h"
+  } else {
+    marker_html.children[1].innerHTML = "";
   }
 }
 
