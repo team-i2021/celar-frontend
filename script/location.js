@@ -30,5 +30,17 @@ const locationError = (e) => {
     console.warn("位置情報が読み込めませんでした。", e);
 }
 
+const CelarInit = () => {
+    if (localStorage.getItem("account") == null)
+    {
+        // 本当はログイン機構を搭載しなきゃいけないから、モーダルを使ってやればいいと思う... :modal
+        register();
+    }
+    else
+    {
+        navigator.geolocation.getCurrentPosition(mapinit, initerror, {"enableHighAccuracy": true, "timeout": 5000, "maximumAge": 1000});
+    }
+}
+
 // 初回読み込み
-navigator.geolocation.getCurrentPosition(mapinit, initerror, {"enableHighAccuracy": true, "timeout": 5000, "maximumAge": 1000});
+

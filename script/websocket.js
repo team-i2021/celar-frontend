@@ -1,4 +1,5 @@
-const socket = new WebSocket('wss://api.celar.f5.si/');
+// WebSocket通信に関するScript
+const socket = new WebSocket(WS_URL);
 
 socket.addEventListener('open',function(e){// 接続
     console.log('WebSocket Connected (Client)');
@@ -20,9 +21,8 @@ socket.addEventListener('message',function(e){
 		else if (data.action == "REGISTER")
         {
             const uuid = data.content;
-			const password = "password";
-			localStorage.setItem("account", JSON.stringify({uuid: uuid, password: password}));
-			alert(`Account registration complete. uuid is ${uuid}`);
+			localStorage.setItem("account", JSON.stringify({uuid: uuid}));
+			alert(`Account registration complete.\nuuid is ${uuid}\npassword is your set password.`);
 			location.reload();
         }
 		else if (data.action == "FETCH")
@@ -52,7 +52,8 @@ socket.addEventListener('message',function(e){
 
 
 const register = () => {
-    socket.send(JSON.stringify({command: "REGISTER"}));
+	const password = prompt("パスワードを入れてね！");
+    socket.send(JSON.stringify({command: "REGISTER", password: password}));
 }
 
 const post = (loc) => {
