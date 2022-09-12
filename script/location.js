@@ -1,7 +1,11 @@
 let count = 0;
 let locator;
 
+let account = {}
+
 let posdata;
+
+let locationLoop;
 
 const clearLocationWatch = () => {
     navigator.geolocation.clearWatch(locator);
@@ -17,7 +21,7 @@ const mapinit = (position) => {
     const lat_pos = position.coords.latitude;
     const lng_pos = position.coords.longitude;
     createMap(lat_pos, lng_pos);
-    setInterval(setLocation, 1000);
+    locationLoop = setInterval(setLocation, 1000);
     navigator.geolocation.clearWatch(locator);
     locator = navigator.geolocation.watchPosition(convertPosition, locationError, {"enableHighAccuracy": true, "timeout": 3000, "maximumAge": 1000});
 }
@@ -40,6 +44,7 @@ const CelarInit = () => {
     {
         navigator.geolocation.getCurrentPosition(mapinit, initerror, {"enableHighAccuracy": true, "timeout": 5000, "maximumAge": 1000});
     }
+    account = JSON.parse(localStorage.getItem("account"));
 }
 
 // 初回読み込み

@@ -1,4 +1,4 @@
-mapboxgl.accessToken = TOKEN;
+mapboxgl.accessToken = MAP_TOKEN;
 
 let map = undefined;
 
@@ -14,7 +14,7 @@ let markers = {}
 const createMap = (lat, lng) => {
   map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/nattyantv/cl7orubyd001514lfipfduov1',
+    style: MAP_URL,
     center: { lat: posdata.coords.latitude, lng: posdata.coords.longitude },
     zoom: 15
   });
@@ -46,6 +46,7 @@ setInterval(
 
 
 function setLocation() {
+  if (socket.readyState != 1) { clearInterval(locationLoop); return; }
   let main_marker = markers[UserUUID]
   main_marker.setLngLat({ lat: posdata.coords.latitude, lng: posdata.coords.longitude })
   let marker_html = main_marker.getElement()
@@ -54,6 +55,7 @@ function setLocation() {
   } else {
     marker_html.children[1].innerHTML = "";
   }
+  post(posdata);
 }
 
 function positionReset() {

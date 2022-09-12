@@ -3,6 +3,7 @@ const socket = new WebSocket(WS_URL);
 
 socket.addEventListener('open',function(e){// 接続
     console.log('WebSocket Connected (Client)');
+	CelarInit()
 });
 
 socket.addEventListener('message',function(e){
@@ -20,10 +21,12 @@ socket.addEventListener('message',function(e){
 		}
 		else if (data.action == "REGISTER")
         {
-            const uuid = data.content;
-			localStorage.setItem("account", JSON.stringify({uuid: uuid}));
+            const uuid = data.content.uuid;
+			const password = data.content.password;
+			localStorage.setItem("account", JSON.stringify({uuid: uuid, password: password}));
 			alert(`Account registration complete.\nuuid is ${uuid}\npassword is your set password.`);
-			location.reload();
+			navigator.geolocation.getCurrentPosition(mapinit, initerror, {"enableHighAccuracy": true, "timeout": 5000, "maximumAge": 1000});
+			account = JSON.parse(localStorage.getItem("account"));
         }
 		else if (data.action == "FETCH")
 		{
@@ -53,7 +56,7 @@ socket.addEventListener('message',function(e){
 
 const register = () => {
 	const password = prompt("パスワードを入れてね！");
-    socket.send(JSON.stringify({command: "REGISTER", password: password}));
+	sha256(password).then(hash => socket.send(JSON.stringify({command: "REGISTER", password: hash})))
 }
 
 const post = (loc) => {
