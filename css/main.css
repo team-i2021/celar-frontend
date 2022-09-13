@@ -20,6 +20,13 @@ body {
     padding: 15px;
 }
 
+.info {
+    position: absolute;
+    z-index: 5;
+    width: 50px;
+    text-align: center;
+}
+
 /*
  (権利表記を消しちゃう禁断のCSS)
  .mapboxgl-control-container{

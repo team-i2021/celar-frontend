@@ -42,9 +42,11 @@ const CelarInit = () => {
     }
     else
     {
+        account = JSON.parse(localStorage.getItem("account"));
+        ws_init();
         navigator.geolocation.getCurrentPosition(mapinit, initerror, {"enableHighAccuracy": true, "timeout": 5000, "maximumAge": 1000});
     }
-    account = JSON.parse(localStorage.getItem("account"));
+
 }
 
 // 初回読み込み

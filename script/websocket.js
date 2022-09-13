@@ -6,6 +6,11 @@ socket.addEventListener('open',function(e){// 接続
 	CelarInit()
 });
 
+socket.addEventListener('error',function(e){// 接続
+	alert("サーバーとの通信ができませんでした。\n時間をおいてから再度やり直してください。");
+	location.reload(true);
+});
+
 socket.addEventListener('message',function(e){
     try
     {
@@ -25,17 +30,42 @@ socket.addEventListener('message',function(e){
 			const password = data.content.password;
 			localStorage.setItem("account", JSON.stringify({uuid: uuid, password: password}));
 			alert(`Account registration complete.\nuuid is ${uuid}\npassword is your set password.`);
-			navigator.geolocation.getCurrentPosition(mapinit, initerror, {"enableHighAccuracy": true, "timeout": 5000, "maximumAge": 1000});
 			account = JSON.parse(localStorage.getItem("account"));
+			CelarInit();
         }
 		else if (data.action == "FETCH")
 		{
+			console.info(data.content);
 			for (const uuid of Object.keys(data.content))
 			{
-				const user = data.content[uuid];
+				if (!(uuid in markers)) { continue; }
+				const location = data.content[uuid];
 				const marker = markers[uuid];
-				marker.setLngLat([user[0], user[1]]);
+				marker.setLngLat({ lat: location[0], lng: location[1]});
+				marker.getElement().children[1].innerHTML = getSpeed(location[2]);
 				// How to set speed data to marker...???
+				// => marker.getElement()...
+			}
+		}
+		else if (data.action == "INIT")
+		{
+			users = data.content.friends;
+			map = new mapboxgl.Map({
+				container: 'map',
+				style: MAP_URL,
+				center: { lat: users[0].location[0], lng: users[0].location[1] },
+				zoom: 15
+			});
+
+			for (const user of users) {
+				const template = document.getElementById('marker');
+				const clone = document.importNode(template.content, true);
+				let el = clone.firstElementChild;
+				el.children[0].src = user.icon;
+
+				markers[user.uuid] = new mapboxgl.Marker(el)
+					.setLngLat({ lat: user.location[0], lng: user.location[1] })
+					.addTo(map);
 			}
 		}
     }
@@ -45,33 +75,28 @@ socket.addEventListener('message',function(e){
     }
 });
 
-
-// document.addEventListener('DOMContentLoaded',function(e){
-//     document.getElementById('sample').addEventListener('click',function(e){
-//         console.log("send Hello!!");
-//         socket.send('hello');// WebSocketでサーバーに文字列を送信
-//     });
-// });
-
-
 const register = () => {
 	const password = prompt("パスワードを入れてね！");
 	sha256(password).then(hash => socket.send(JSON.stringify({command: "REGISTER", password: hash})))
 }
 
-const post = (loc) => {
+const ws_post = (loc) => {
     const time = new Date();
-    socket.send(JSON.stringify({command: "POST", uuid: account.uuid, location: [loc.coords.latitude, loc.coords.longitude, loc.coords.speed, time.getMilliseconds()]}));
+    socket.send(JSON.stringify({command: "POST", uuid: account.uuid, location: [loc.coords.latitude, loc.coords.longitude, loc.coords.speed, time.getTime()]}));
 }
 
-const add_friend = (uuid) => {
+const ws_add_friend = (uuid) => {
     socket.send(JSON.stringify({command: "FRIEND", action: "ADD", uuid: account.uuid, user_id: uuid}));
 }
 
-const del_friend = (uuid) => {
+const ws_del_friend = (uuid) => {
     socket.send(JSON.stringify({command: "FRIEND", action: "DEL", uuid: account.uuid, user_id: uuid}));
 }
 
-const fetch = () => {
-    socket.send(JSON.stringify({command: "FETCH"}));
+const ws_fetch = () => {
+    socket.send(JSON.stringify({command: "FETCH", uuid: account.uuid}));
+}
+
+const ws_init = () => {
+	socket.send(JSON.stringify({command: "INIT", uuid: account.uuid}));
 }

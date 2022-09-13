@@ -2,33 +2,14 @@ mapboxgl.accessToken = MAP_TOKEN;
 
 let map = undefined;
 
-const users = [
-  { "name": "nattyantv", "icon": "/image/marker.png", "uuid": 1234567890 },
-]
-const UserUUID = 1234567890
+let users = []
 // usersのデータは基本はDBからとる。あくまでも上のはダミーデータ。
 
 let markers = {}
 
 
 const createMap = (lat, lng) => {
-  map = new mapboxgl.Map({
-    container: 'map',
-    style: MAP_URL,
-    center: { lat: posdata.coords.latitude, lng: posdata.coords.longitude },
-    zoom: 15
-  });
 
-  for (const user of users) {
-    const template = document.getElementById('marker');
-    const clone = document.importNode(template.content, true);
-    let el = clone.firstElementChild;
-    el.children[0].src = user["icon"];
-
-    markers[user["uuid"]] = new mapboxgl.Marker(el)
-      .setLngLat({ lat: posdata.coords.latitude, lng: posdata.coords.longitude })
-      .addTo(map);
-  }
 }
 
 /*
@@ -44,18 +25,22 @@ setInterval(
 )
 */
 
+function getSpeed(speed) {
+  if (Math.trunc(speed * 3.6) >= 1) {
+    return Math.trunc(speed * 3.6) + "km/h"
+  } else {
+    return "";
+  }
+}
 
 function setLocation() {
   if (socket.readyState != 1) { clearInterval(locationLoop); return; }
-  let main_marker = markers[UserUUID]
+  let main_marker = markers[account.uuid]
   main_marker.setLngLat({ lat: posdata.coords.latitude, lng: posdata.coords.longitude })
   let marker_html = main_marker.getElement()
-  if (Math.trunc(posdata.coords.speed * 3.6) >= 1) {
-    marker_html.children[1].innerHTML = Math.trunc(posdata.coords.speed * 3.6) + "km/h"
-  } else {
-    marker_html.children[1].innerHTML = "";
-  }
-  post(posdata);
+  marker_html.children[1].innerHTML = getSpeed(posdata.coords.speed)
+  ws_post(posdata);
+  ws_fetch();
 }
 
 function positionReset() {

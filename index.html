@@ -3,8 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet"/>
         <title>Celar</title>
         <script src="/auth.js"></script>
+        <script src="/script/map.js"></script>
         <script src="/script/pass.js"></script>
         <link rel="manifest" href="manifest.json">
         <script src="/script/sw_register.js"></script>
@@ -15,13 +19,11 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
-        <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet"/>
         <link href="/css/main.css" rel="stylesheet">
         <link href="/css/map.css" rel="stylesheet">
         <script src="/script/location.js"></script>
         <script src="/script/websocket.js"></script>
+        <script src="/script/general.js"></script>
     </head>
     <body>
         <div id="map"></div>
@@ -33,6 +35,11 @@
             </div>
         </template>
         <img class="current" src="/sprite/location_on_black_24dp.svg" alt="Current position" onclick="positionReset()">
+        <div class="info">
+            !DeveloperTools!<br>
+            <a href="javascript:register()">Register</a>/<a href="javascript:localStorage.removeItem('account'); location.reload();">Reset</a>
+            <a href="javascript:addFriend();">AddFriend</a>/<a href="javascript:addFriend();">DelFriend</a>
+            <a href="javascript:alert(`Your UUID: ${account.uuid}\nYour registed users: ${Object.keys(markers)} (${users.length})`);">UserInfo</a>
+        </div>
     </body>
-    <script src="/script/map.js"></script>
 </html>
