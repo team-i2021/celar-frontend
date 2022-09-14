@@ -20,7 +20,7 @@ const mapinit = (position) => {
     posdata = position;
     const lat_pos = position.coords.latitude;
     const lng_pos = position.coords.longitude;
-    createMap(lat_pos, lng_pos);
+    positionReset();
     locationLoop = setInterval(setLocation, 1000);
     navigator.geolocation.clearWatch(locator);
     locator = navigator.geolocation.watchPosition(convertPosition, locationError, {"enableHighAccuracy": true, "timeout": 3000, "maximumAge": 1000});
@@ -44,7 +44,6 @@ const CelarInit = () => {
     {
         account = JSON.parse(localStorage.getItem("account"));
         ws_init();
-        navigator.geolocation.getCurrentPosition(mapinit, initerror, {"enableHighAccuracy": true, "timeout": 5000, "maximumAge": 1000});
     }
 
 }

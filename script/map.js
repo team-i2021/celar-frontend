@@ -7,6 +7,7 @@ let users = []
 
 let markers = {}
 
+let main_marker;
 
 const createMap = (lat, lng) => {
 

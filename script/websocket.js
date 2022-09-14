@@ -29,7 +29,7 @@ socket.addEventListener('message',function(e){
             const uuid = data.content.uuid;
 			const password = data.content.password;
 			localStorage.setItem("account", JSON.stringify({uuid: uuid, password: password}));
-			alert(`Account registration complete.\nuuid is ${uuid}\npassword is your set password.`);
+			alert(`アカウントを作成しました！\nIDは${uuid}で、パスワードはさっき設定したやつです！`);
 			account = JSON.parse(localStorage.getItem("account"));
 			CelarInit();
         }
@@ -50,6 +50,10 @@ socket.addEventListener('message',function(e){
 		else if (data.action == "INIT")
 		{
 			users = data.content.friends;
+			if (users[0].location.length === 0)
+			{
+				users[0].location = [0.0, 0.0, null, 0];
+			}
 			map = new mapboxgl.Map({
 				container: 'map',
 				style: MAP_URL,
@@ -58,6 +62,10 @@ socket.addEventListener('message',function(e){
 			});
 
 			for (const user of users) {
+				if (user.location.length === 0)
+				{
+					user.location = [0.0, 0.0, null, 0];
+				}
 				const template = document.getElementById('marker');
 				const clone = document.importNode(template.content, true);
 				let el = clone.firstElementChild;
@@ -67,6 +75,9 @@ socket.addEventListener('message',function(e){
 					.setLngLat({ lat: user.location[0], lng: user.location[1] })
 					.addTo(map);
 			}
+
+			main_marker = markers[account.uuid];
+			navigator.geolocation.getCurrentPosition(mapinit, initerror, {"enableHighAccuracy": true, "timeout": 5000, "ma  ximumAge": 1000});
 		}
     }
     catch (err)
