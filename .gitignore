@@ -1,2 +1,9 @@
+# 認証情報
 auth.js
+
+# ApacheでLet's Encryptの認証をするときにつかうあれ
 .well-known
+
+# 画像フォルダ(フォルダ維持のためにimage.mdだけ残してる)
+image/**/*
+!image/image.md
