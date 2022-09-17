@@ -7,3 +7,4 @@ auth.js
 # 画像フォルダ(フォルダ維持のためにimage.mdだけ残してる)
 image/**/*
 !image/image.md
+!image/default.png

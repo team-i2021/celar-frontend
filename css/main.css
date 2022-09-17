@@ -50,3 +50,9 @@ body {
      display: none;
  }
 */
+
+a {
+    color: rgb(16, 158, 240);
+    cursor:pointer;
+    text-decoration: underline;
+}
