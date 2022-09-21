@@ -36,7 +36,7 @@ function getSpeed(speed) {
 
 function setLocation() {
   if (socket.readyState != 1) { clearInterval(locationLoop); return; }
-  let main_marker = markers[account.uuid]
+  let main_marker = markers[account.uid]
   main_marker.setLngLat({ lat: posdata.coords.latitude, lng: posdata.coords.longitude })
   let marker_html = main_marker.getElement()
   marker_html.children[1].innerHTML = getSpeed(posdata.coords.speed)

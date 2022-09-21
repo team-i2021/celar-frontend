@@ -1,12 +1,15 @@
+let account = {}
+
 function addFriend() {
-    const uuid = prompt("追加したいフレンドのUUID");
-    ws_add_friend(uuid);
-    ws_init();
+    const uid = prompt("追加したいフレンドのUID");
+    ws_add_friend(uid);
+    alert("フレンドリクエストを送信したよ！");
 }
 
 function delFriend() {
-    const uuid = prompt("削除したいフレンドのUUID");
-    ws_del_friend(uuid);
+    const uid = prompt("削除したいフレンドのUID");
+    ws_del_friend(uid);
+    alert("フレンドを削除しました。");
     ws_init();
 }
 
@@ -18,7 +21,7 @@ function selectFile() {
 function uploadFile(e) {
     let formData = new FormData();
     formData.append("iconfile", iconfile.files[0]);
-    formData.append("uuid", account.uuid);
+    formData.append("uid", account.uid);
 
     $.ajax({
         url: `${API_URL}/upload_icon`,

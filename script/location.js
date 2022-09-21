@@ -1,8 +1,6 @@
 let count = 0;
 let locator;
 
-let account = {}
-
 let posdata;
 
 let locationLoop;
@@ -35,7 +33,7 @@ const locationError = (e) => {
 }
 
 const CelarInit = () => {
-    if (localStorage.getItem("account") == null)
+    if (localStorage.getItem("account") === null)
     {
         // 本当はログイン機構を搭載しなきゃいけないから、モーダルを使ってやればいいと思う... :modal
         register();

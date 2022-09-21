@@ -37,8 +37,8 @@
         <div class="info">
             [DeveloperTools]<br>
             <a href="javascript:register()">Register</a>/<a href="javascript:localStorage.removeItem('account'); location.reload();">Reset</a>/<a href="javascript:location.reload();">Reload</a>
-            <a href="javascript:addFriend();">AddFriend</a>/<a href="javascript:addFriend();">DelFriend</a>
-            <a href="javascript:alert(`Your UUID: ${account.uuid}\nYour registed users: ${Object.keys(markers)} (${users.length})`);">UserInfo</a>/<a href="javascript:selectFile()">ChangeIcon</a>
+            <a href="javascript:addFriend();">AddFriend</a>/<a href="javascript:delFriend();">DelFriend</a>
+            <a href="javascript:alert(`Your UUID: ${account.uid}\nYour registed users: ${Object.keys(markers)} (${users.length})`);">UserInfo</a>/<a href="javascript:selectFile()">ChangeIcon</a>
         </div>
         <input style="display: none;" type="file" id="iconfile" name="iconfile" accept="image/jpeg, image/png">
         <script src="/script/general.js"></script>
