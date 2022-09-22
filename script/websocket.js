@@ -126,7 +126,7 @@ const ws_add_friend = (uid) => {
 }
 
 const ws_del_friend = (uid) => {
-    socket.send(JSON.stringify({command: "FRIEND", action: "DEL", password: account.password, uid: account.uid, user_id: uid}));
+    socket.send(JSON.stringify({command: "FRIEND", action: "DEL", password: account.password, uid: account.uid, user_id: Number(uid)}));
 }
 
 const ws_fetch = () => {
