@@ -1,17 +1,39 @@
 // WebSocket通信に関するScript
-const socket = new WebSocket(WS_URL);
+let socket;
+let socket_count = 0;
 
-socket.addEventListener('open', function(e){// 接続
+
+const socket_init = () => {
+	socket = new WebSocket(WS_URL);
+
+	socket.addEventListener('open', socket_open);
+	socket.addEventListener('error', socket_error);
+	socket.addEventListener('message', socket_message);
+}
+
+const socket_open = (e) => {
+	socket_count = 0;
     console.log('WebSocket Connected (Client)');
-	CelarInit()
-});
+	CelarInit();
+}
 
-socket.addEventListener('error', function(e){// 接続
-	alert("サーバーとの通信ができませんでした。\n時間をおいてから再度やり直してください。");
-	location.reload(true);
-});
+const socket_error = (e) => {
+	socket_count++;
+	console.warn("WebSocketサーバーから切断されました。");
+	if (socket_count > 3)
+	{
+		console.error("WebSocketサーバーとの接続が何度も失敗しました。");
+		alert("サーバーとの通信ができませんでした。\n時間をおいてから再度やり直してください。");
+		location.reload();
+	}
+	else
+	{
+		console.info(`WebSocketサーバーと再接続します...\n${socket_count}回目...`);
+		setTimeout(socket_init, 1000);
+	}
+}
 
-socket.addEventListener('message', function(e){
+const socket_message = (e) => {
     try
     {
         const data = JSON.parse(e.data);
@@ -30,6 +52,11 @@ socket.addEventListener('message', function(e){
 			{
 				alert("現在サーバーがメンテナンス中です。\nしばらくしてから再度やり直してください。");
 				location.reload();
+			}
+			else if (data.content == "Forbidden")
+			{
+				alert("ログインできませんでした。\nUIDとパスワードを確認してください。")
+				showModal(LOGIN_HTML);
 			}
 		}
 		else if (data.action == "REGISTER")
@@ -104,16 +131,34 @@ socket.addEventListener('message', function(e){
     {
         console.info("Failed Convert.", e, err)
     }
-});
+}
 
-const register = () => {
-	const password = prompt("パスワードを設定しよう。");
-	if (password === "" || password === null) {
-		alert("パスワードはなにかしら設定しよう。\nセキュリティー面とバグが起きそうで怖いからだよ。")
-		register();
+const login = (uid = "", password = "") => {
+	uid = String(uid);
+	if (uid.search(/^\d+$/) !== 0) {
+		alert("UIDは数字を入力する必要がります。");
 		return;
 	}
-	sha256(password).then(hash => socket.send(JSON.stringify({command: "REGISTER", password: hash})))
+	sha256(password).then(
+		function (h) {
+			localStorage.setItem("account", JSON.stringify({uid: Number(uid), password: h}));
+			CelarInit();
+			hideModal();
+		}
+	)
+}
+
+const register = (password = null) => {
+	if (password === "" || password === null) {
+		alert("パスワードはなにかしら設定しよう。\nセキュリティー面とバグが起きそうで怖いからだよ。")
+		return;
+	}
+	sha256(password).then(
+		function (h) {
+			socket.send(JSON.stringify({command: "REGISTER", password: h}))
+			hideModal();
+		}
+	)
 }
 
 const ws_post = (loc) => {
@@ -136,3 +181,6 @@ const ws_fetch = () => {
 const ws_init = () => {
 	socket.send(JSON.stringify({command: "INIT", uid: account.uid, password: account.password}));
 }
+
+
+socket_init();

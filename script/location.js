@@ -36,7 +36,7 @@ const CelarInit = () => {
     if (localStorage.getItem("account") === null)
     {
         // 本当はログイン機構を搭載しなきゃいけないから、モーダルを使ってやればいいと思う... :modal
-        register();
+        showModal(REGISTER_HTML);
     }
     else
     {

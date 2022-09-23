@@ -1,0 +1,91 @@
+.overlay {
+    animation: modalshow 0.5s ease-in;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(90, 90, 90, 0.5);
+    z-index: 10;
+}
+
+.overlay-hide {
+    visibility: hidden;
+    animation: modalhide 0.5s ease-out;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(90, 90, 90, 0.5);
+    z-index: 10;
+}
+
+
+.modal {
+    animation: modalshow 0.5s ease-in;
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 500px;
+    max-width: 80vw;
+    height: 500px;
+    max-height: 50vh;
+    background: linear-gradient(to bottom right, #2af5f5 0%, #009efd 100%);
+    z-index: 20;
+    border-radius: 20px;
+    box-shadow:
+        15px 15px 15px rgba(0, 0, 0, 0.3),
+        -15px 15px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-hide{
+    visibility: hidden;
+    animation: modalhide 0.5s ease-out;
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 500px;
+    max-width: 80vw;
+    height: 500px;
+    max-height: 50vh;
+    background: linear-gradient(to bottom right, #2af5f5 0%, #009efd 100%);
+    z-index: 20;
+    border-radius: 20px;
+    box-shadow:
+        15px 15px 15px rgba(0, 0, 0, 0.3),
+        -15px 15px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+@keyframes modalshow {
+    0% {
+        visibility: hidden;
+        opacity: 0%;
+    }
+    1% {
+        visibility: visible;
+        opacity: 1%;
+    }
+    100% {
+        visibility: visible;
+        opacity: 100%;
+    }
+}
+
+@keyframes modalhide {
+    0% {
+        visibility: visible;
+        opacity: 100%;
+    }
+    99% {
+        visibility: visible;
+        opacity: 1%;
+    }
+    100% {
+        visibility: hidden;
+        display: none;
+        opacity: 0%;
+    }
+}
+
