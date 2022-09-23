@@ -59,6 +59,15 @@ const socket_message = (e) => {
 				showModal(LOGIN_HTML);
 			}
 		}
+		else if (data.action == "CLOSE")
+		{
+			if (data.content == "CloseBecauseNewConnection")
+			{
+				localStorage.removeItem("account");
+				alert("別のデバイスからログインされました。");
+				location.reload();
+			}
+		}
 		else if (data.action == "REGISTER")
         {
             const uid = data.content.uid;
@@ -125,6 +134,24 @@ const socket_message = (e) => {
 
 			main_marker = markers[account.uid];
 			navigator.geolocation.getCurrentPosition(mapinit, initerror, {"enableHighAccuracy": true, "timeout": 5000, "ma  ximumAge": 1000});
+		}
+		else if (data.action == "FRIEND_REQUEST")
+		{
+			const request = data.content;
+			console.info(request)
+			const res = confirm(`UID:${request.uid}の方から申請が飛んできたよ！\n許可する？`);
+			if (res) {
+				socket.send(JSON.stringify({command: "FRIEND", action: "ALLOW", uid: account.uid, password: account.password, user_id: request.uid}));
+				users.push({ icon: request.icon, uid: request.uid, location: [0, 0, null, 0] });
+			}
+			else {
+				socket.send(JSON.stringify({command: "FRIEND", action: "DENY", uid: account.uid, password: account.password, user_id: request.uid}));
+			}
+			location.reload();
+		}
+		else if (data.action == "FRIEND_ALLOWED")
+		{
+			location.reload();
 		}
     }
     catch (err)
