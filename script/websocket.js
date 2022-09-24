@@ -110,26 +110,27 @@ const socket_message = (e) => {
 			{
 				users[0].location = [0.0, 0.0, null, 0];
 			}
-			map = new mapboxgl.Map({
-				container: 'map',
-				style: MAP_URL,
-				center: { lat: users[0].location[0], lng: users[0].location[1] },
-				zoom: 15
-			});
+
+			createMap(users[0].location[0], users[0].location[1]);
 
 			for (const user of users) {
 				if (user.location.length === 0)
 				{
 					user.location = [0.0, 0.0, null, 0];
 				}
+
 				const template = document.getElementById('marker');
 				const clone = document.importNode(template.content, true);
-				let el = clone.firstElementChild;
+				const el = clone.firstElementChild;
 				el.children[0].src = user.icon;
 
-				markers[user.uid] = new mapboxgl.Marker(el)
-					.setLngLat({ lat: user.location[0], lng: user.location[1] })
-					.addTo(map);
+				markers[user.uid] = L.marker([user.location[0], user.location[1]], {
+					icon: L.divIcon({
+						html: el,
+						iconSize: [0, 0]
+					}),
+				}).addTo(map)
+				.on('click', function (e) {console.log(e)});
 			}
 
 			main_marker = markers[account.uid];
