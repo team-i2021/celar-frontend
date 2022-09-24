@@ -1,5 +1,5 @@
 const MAP_URL = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}";
-const MAP_ATTRIBUTION = `Tiles &copy; <a href="http://www.esrij.com/"> Esri Japan </a> | <a herf="https://github.com/team-i2021">Celar</a>`;
+const MAP_ATTRIBUTION = `Tiles &copy; <a href="http://www.esrij.com/"> Esri Japan </a> | <a href="https://github.com/team-i2021">Celar</a> v0.9.1`;
 let map = undefined;
 
 let users = []

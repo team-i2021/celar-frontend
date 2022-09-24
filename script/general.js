@@ -15,14 +15,46 @@ const REGISTER_HTML = `
 <button onclick="showModal(LOGIN_HTML)">ログイン画面へ</button>
 `
 
+const MAINTENANCE_PAGE = `
+<h1>MAINTENANCE</h1>
+<div>現在Celarはメンテナンス中です。</div>
+<div>メンテナンス終了までお待ち下さい。</div>
+<button onclick="location.reload();">再読み込み</button>
+`
+
+const MAIN_MENU = `
+<h1>Celar</h1>
+<div><span class="material-symbols-outlined">group</span><a onclick="userInfo()">Friend List</a></div>
+<div><span class="material-symbols-outlined">group_add</span><a onclick="addFriend()">Add Friend</a></div>
+<div><span class="material-symbols-outlined">group_remove</span><a onclick="addFriend()">Remove Friend</a></div>
+`
+
+function userInfo() {
+    alert(`Your UUID: ${account.uid}\nYour registed users: ${Object.keys(markers)} (${users.length})`);
+}
+
 function addFriend() {
     const uid = prompt("追加したいフレンドのUID");
+    if (uid === null || uid === "") {
+        return;
+    }
+    if (uid.search(/^\d+$/) !== 0) {
+		alert("UIDは数字を入力する必要がります。");
+		return;
+	}
     ws_add_friend(uid);
     alert("フレンドリクエストを送信したよ！");
 }
 
 function delFriend() {
     const uid = prompt("削除したいフレンドのUID");
+    if (uid === null || uid === "") {
+        return;
+    }
+    if (uid.search(/^\d+$/) !== 0) {
+		alert("UIDは数字を入力する必要がります。");
+		return;
+	}
     ws_del_friend(uid);
     alert("フレンドを削除しました。");
     ws_init();
@@ -58,18 +90,57 @@ function uploadFile(e) {
 document.getElementById('iconfile').addEventListener('change', uploadFile);
 
 
-function showModal(content = "") {
+function showModal(content = "", modalid = "1") {
     let overlay = document.getElementById("overlay");
     let modal = document.getElementById("modal");
     modal.innerHTML = content;
     overlay.classList.value = "overlay";
-    modal.classList.value = "modal";
+    modal.classList.value = `modal${modalid}`;
 }
 
-function hideModal() {
+function hideModal(modalid = "1") {
     let overlay = document.getElementById("overlay");
     let modal = document.getElementById("modal");
     modal.innerHTML = "";
     overlay.classList.value = "overlay-hide";
-    modal.classList.value = "modal-hide";
+    modal.classList.value = `modal${modalid}-hide`;
+}
+
+const login = (uid = "", password = "") => {
+	if (uid.search(/^\d+$/) !== 0) {
+		alert("UIDは数字を入力する必要がります。");
+		return;
+	}
+	sha256(password).then(
+		function (h) {
+			localStorage.setItem("account", JSON.stringify({uid: uid, password: h}));
+			CelarInit();
+			hideModal("1");
+		}
+	)
+}
+
+const register = (password = null) => {
+	if (password === "" || password === null) {
+		alert("パスワードは設定しましょう。")
+		return;
+	}
+	sha256(password).then(
+		function (h) {
+			socket.send(JSON.stringify({command: "REGISTER", password: h}))
+			hideModal("1");
+		}
+	)
+}
+
+function showHamMenu() {
+    let close = document.getElementById("menu_closer");
+    close.classList.value = "menu_close";
+    showModal(MAIN_MENU, "menu");
+}
+
+function hideHamMenu() {
+    let close = document.getElementById("menu_closer");
+    close.classList.value = "none";
+    hideModal("menu");
 }

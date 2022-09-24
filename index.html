@@ -19,6 +19,9 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <link href="/css/main.css" rel="stylesheet">
         <link href="/css/map.css" rel="stylesheet">
         <link href="/css/modal.css" rel="stylesheet">
@@ -34,11 +37,12 @@
             </div>
         </template>
         <img class="current" src="/sprite/near_me_FILL0_wght400_GRAD0_opsz48.svg" alt="Current position" onclick="positionReset()">
+        <img class="menu_icon" src="/sprite/menu_FILL0_wght400_GRAD0_opsz48.svg" alt="MenuIcon" onclick="showHamMenu()">
+        <img id="menu_closer" class="none" src="/sprite/close_FILL0_wght400_GRAD0_opsz48.svg" alt="MenuIcon" onclick="hideHamMenu()">
         <div class="info">
             [DeveloperTools]<br>
             <a href="javascript:localStorage.removeItem('account'); location.reload();">Logout</a>/<a href="javascript:location.reload();">Reload</a>
-            <a href="javascript:addFriend();">AddFriend</a>/<a href="javascript:delFriend();">DelFriend</a>
-            <a href="javascript:alert(`Your UUID: ${account.uid}\nYour registed users: ${Object.keys(markers)} (${users.length})`);">UserInfo</a>/<a href="javascript:selectFile()">ChangeIcon</a>
+            <a href="javascript:selectFile()">ChangeIcon</a>
         </div>
         <input style="display: none;" type="file" id="iconfile" name="iconfile" accept="image/jpeg, image/png">
         <div id="overlay" class="overlay-hide"></div>

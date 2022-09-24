@@ -50,13 +50,14 @@ const socket_message = (e) => {
 		{
 			if (data.content == "UnderTheMaintenance")
 			{
-				alert("現在サーバーがメンテナンス中です。\nしばらくしてから再度やり直してください。");
-				location.reload();
+				console.info("Celar Backend Server is under the maintenance.");
+				showModal(MAINTENANCE_PAGE, "1");
+				socket.close();
 			}
 			else if (data.content == "Forbidden")
 			{
 				alert("ログインできませんでした。\nUIDとパスワードを確認してください。")
-				showModal(LOGIN_HTML);
+				showModal(LOGIN_HTML, "1");
 			}
 		}
 		else if (data.action == "CLOSE")
@@ -161,33 +162,6 @@ const socket_message = (e) => {
     }
 }
 
-const login = (uid = "", password = "") => {
-	uid = String(uid);
-	if (uid.search(/^\d+$/) !== 0) {
-		alert("UIDは数字を入力する必要がります。");
-		return;
-	}
-	sha256(password).then(
-		function (h) {
-			localStorage.setItem("account", JSON.stringify({uid: Number(uid), password: h}));
-			CelarInit();
-			hideModal();
-		}
-	)
-}
-
-const register = (password = null) => {
-	if (password === "" || password === null) {
-		alert("パスワードはなにかしら設定しよう。\nセキュリティー面とバグが起きそうで怖いからだよ。")
-		return;
-	}
-	sha256(password).then(
-		function (h) {
-			socket.send(JSON.stringify({command: "REGISTER", password: h}))
-			hideModal();
-		}
-	)
-}
 
 const ws_post = (loc) => {
     const time = new Date();
