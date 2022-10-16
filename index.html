@@ -8,6 +8,8 @@
         <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js" integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s=" crossorigin=""></script>
         <title>Celar</title>
         <script src="/auth.js"></script>
+        <script src="/script/ready.js"></script>
+        <script src="/script/general.js"></script>
         <script src="/script/map.js"></script>
         <script src="/script/pass.js"></script>
         <link rel="manifest" href="manifest.json">
@@ -20,8 +22,6 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <link href="/css/main.css" rel="stylesheet">
         <link href="/css/map.css" rel="stylesheet">
         <link href="/css/modal.css" rel="stylesheet">
@@ -30,23 +30,17 @@
     </head>
     <body>
         <div id="map"></div>
-        <template id="marker">
+        <template id="marker" class="marker">
             <div>
-                <img id="marker-icon" class="map-icon" alt="marker">
+                <img id="marker-icon" class="map-icon" alt="marker" style="width: 50px; height: 50px;">
                 <div id="speed" class="marker-speed"></div>
             </div>
         </template>
-        <img class="current" src="/sprite/near_me_FILL0_wght400_GRAD0_opsz48.svg" alt="Current position" onclick="positionReset()">
-        <img class="menu_icon" src="/sprite/menu_FILL0_wght400_GRAD0_opsz48.svg" alt="MenuIcon" onclick="showHamMenu()">
-        <img id="menu_closer" class="none" src="/sprite/close_FILL0_wght400_GRAD0_opsz48.svg" alt="MenuIcon" onclick="hideHamMenu()">
-        <div class="info">
-            [DeveloperTools]<br>
-            <a href="javascript:localStorage.removeItem('account'); location.reload();">Logout</a>/<a href="javascript:location.reload();">Reload</a>
-            <a href="javascript:selectFile()">ChangeIcon</a>
-        </div>
+        <img class="current selectable" src="/sprite/near_me_FILL0_wght400_GRAD0_opsz48.svg" alt="Current position" onclick="positionReset()">
+        <img class="menu_icon selectable" src="/sprite/menu_FILL0_wght400_GRAD0_opsz48.svg" alt="MenuIcon" onclick="showHamMenu()">
+        <img id="menu_closer" class="none selectable" src="/sprite/close_FILL0_wght400_GRAD0_opsz48.svg" alt="MenuIcon" onclick="hideHamMenu()">
         <input style="display: none;" type="file" id="iconfile" name="iconfile" accept="image/jpeg, image/png">
         <div id="overlay" class="overlay-hide"></div>
         <div id="modal" class="mdoal-hide"></div>
-        <script src="/script/general.js"></script>
     </body>
 </html>

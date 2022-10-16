@@ -19,7 +19,7 @@ const mapinit = (position) => {
     const lat_pos = position.coords.latitude;
     const lng_pos = position.coords.longitude;
     positionReset();
-    locationLoop = setInterval(setLocation, 1000);
+    locationLoop = setInterval(setLocation, 2000);
     navigator.geolocation.clearWatch(locator);
     locator = navigator.geolocation.watchPosition(convertPosition, locationError, {"enableHighAccuracy": true, "timeout": 3000, "maximumAge": 1000});
 }
@@ -40,10 +40,8 @@ const CelarInit = () => {
     }
     else
     {
-        account = JSON.parse(localStorage.getItem("account"));
         ws_init();
     }
-
 }
 
 // 初回読み込み

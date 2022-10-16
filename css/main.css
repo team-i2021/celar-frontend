@@ -90,3 +90,11 @@ a {
     cursor:pointer;
     text-decoration: underline;
 }
+
+img {
+    pointer-events: none;
+}
+
+.selectable {
+    pointer-events: auto;
+}
