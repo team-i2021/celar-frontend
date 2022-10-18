@@ -22,6 +22,7 @@ const mapinit = (position) => {
     locationLoop = setInterval(setLocation, 2000);
     navigator.geolocation.clearWatch(locator);
     locator = navigator.geolocation.watchPosition(convertPosition, locationError, {"enableHighAccuracy": true, "timeout": 3000, "maximumAge": 1000});
+    main_marker.getElement().children[0].children[0].className = "map-icon marker-online";
 }
 
 const initerror = (e) => {

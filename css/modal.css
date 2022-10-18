@@ -30,6 +30,7 @@
     width: calc(90% - 1rem);
     height: calc(90% - 1rem);
     background: linear-gradient(to bottom right, #58d376 0%, #4f94cc 100%);
+    color: #000000;
     z-index: 20;
     border-radius: 20px;
     box-shadow:
@@ -48,6 +49,7 @@
     width: calc(90% - 1rem);
     height: calc(90% - 1rem);
     background: linear-gradient(to bottom right, #58d376 0%, #4f94cc 100%);
+    color: #000000;
     z-index: 20;
     border-radius: 20px;
     box-shadow:
@@ -68,6 +70,7 @@
     height: 500px;
     max-height: 50vh;
     background: linear-gradient(to bottom right, #2af5f5 0%, #009efd 100%);
+    color: #000000;
     z-index: 20;
     border-radius: 20px;
     box-shadow:
@@ -88,6 +91,7 @@
     height: 500px;
     max-height: 50vh;
     background: linear-gradient(to bottom right, #2af5f5 0%, #009efd 100%);
+    color: #000000;
     z-index: 20;
     border-radius: 20px;
     box-shadow:
@@ -95,6 +99,46 @@
         -15px 15px 15px rgba(0, 0, 0, 0.3);
 }
 
+.modal2 {
+    animation: modalshow 0.5s ease-in;
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 500px;
+    max-width: 80vw;
+    height: 500px;
+    max-height: 50vh;
+    background: linear-gradient(to bottom right, #f59d2a 0%, #f00e59 100%);
+    color: #ffffff;
+    z-index: 20;
+    border-radius: 20px;
+    box-shadow:
+        15px 15px 15px rgba(0, 0, 0, 0.3),
+        -15px 15px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal2-hide{
+    visibility: hidden;
+    animation: modalhide 0.5s ease-out;
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 500px;
+    max-width: 80vw;
+    height: 500px;
+    max-height: 50vh;
+    background: linear-gradient(to bottom right, #f59d2a 0%, #f00e59 100%);
+    color: #ffffff;
+    z-index: 20;
+    border-radius: 20px;
+    box-shadow:
+        15px 15px 15px rgba(0, 0, 0, 0.3),
+        -15px 15px 15px rgba(0, 0, 0, 0.3);
+}
 
 @keyframes modalshow {
     0% {

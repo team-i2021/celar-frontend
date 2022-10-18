@@ -4,9 +4,6 @@ const MAP_ZOOM = 16.5;
 
 let map = undefined;
 
-let users = []
-// usersのデータは基本はDBからとる。あくまでも上のはダミーデータ。
-
 let markers = {}
 
 let main_marker;
@@ -34,17 +31,26 @@ function getSpeed(speed) {
 
 function setLocation() {
     if (socket.readyState != 1) { clearInterval(locationLoop); return; }
-    let main_marker = markers[account.uid]
-    main_marker.setLatLng({ lat: posdata.coords.latitude, lng: posdata.coords.longitude })
-    let marker_html = main_marker.getElement().children[0]
+    const date = new Date();
+    markers[account.uid].location = [posdata.coords.latitude, posdata.coords.longitude, posdata.coords.speed, date.getTime()];
+    markers[account.uid].setLatLng({ lat: posdata.coords.latitude, lng: posdata.coords.longitude })
+    let marker_html = markers[account.uid].getElement().children[0]
     marker_html.children[1].innerHTML = getSpeed(posdata.coords.speed)
+    main_marker = markers[account.uid]
     ws_post(posdata);
     ws_fetch();
 }
 
 function userPopup(e) {
     const uid = e.target.options.icon.options.uid;
-    alert(uid);
+    const user = markers[uid];
+    const lastDate = new Date(user.location[3]);
+    showModal(`
+<h2>${user.uid}</h2>
+<div>最終オンライン:${lastDate.toLocaleString()}</div>
+<button onclick="hideModal('2')">Close</button>
+`, '2')
+    console.log(user)
 }
 
 function positionReset() {

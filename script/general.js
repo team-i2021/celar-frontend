@@ -36,13 +36,16 @@ const MAINTENANCE_PAGE = `
 
 const MAIN_MENU = `
 <h1>Celar</h1>
-<h5>${account.uid}</h5>
+<h5>$[uid]</h5>
 <div><img class="modal_icon" src="/sprite/group_FILL0_wght400_GRAD0_opsz48.svg"><a onclick="userInfo()">Friend List</a></div>
 <div><img class="modal_icon" src="/sprite/group_add_FILL0_wght400_GRAD0_opsz48.svg"><a onclick="addFriend()">Add Friend</a></div>
 <div><img class="modal_icon" src="/sprite/group_remove_FILL0_wght400_GRAD0_opsz48.svg"><a onclick="addFriend()">Remove Friend</a></div>
 <div><img class="modal_icon" src="/sprite/face_retouching_natural_FILL0_wght400_GRAD0_opsz48.svg"><a onclick="selectFile()">Change Icon</a></div>
 <div><img class="modal_icon" src="/sprite/logout_FILL0_wght400_GRAD0_opsz48.svg"><a onclick="localStorage.removeItem('account')">Logout</a></div>
 <div><img class="modal_icon" src="/sprite/refresh_FILL0_wght400_GRAD0_opsz48.svg"><a onclick="location.reload()">Reload</a></div>
+<hr>
+<div>Ping:$[ping]ms</div>
+<div>時間ズレ:$[gap]ms</div>
 `
 
 if (!('Notification' in window)) {
@@ -107,6 +110,9 @@ function uploadFile(e) {
 function showModal(content = "", modalid = "1") {
     let overlay = document.getElementById("overlay");
     let modal = document.getElementById("modal");
+    content = content.replace("$[uid]", account.uid);
+    content = content.replace("$[ping]", ping);
+    content = content.replace("$[gap]", gap);
     modal.innerHTML = content;
     overlay.classList.value = "overlay";
     modal.classList.value = `modal${modalid}`;

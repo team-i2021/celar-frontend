@@ -23,3 +23,11 @@
 .marker-speed {
     text-align: center;
 }
+
+.marker-online {
+    filter: none;
+}
+
+.marker-offline {
+    filter: grayscale(1);
+}

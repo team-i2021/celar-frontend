@@ -1,7 +1,8 @@
 // WebSocket通信に関するScript
 let socket;
 let socket_count = 0;
-
+let ping = NaN;
+let gap = NaN;
 
 const socket_init = () => {
     socket = new WebSocket(WS_URL);
@@ -14,6 +15,9 @@ const socket_init = () => {
 const socket_open = (e) => {
     socket_count = 0;
     console.log('WebSocket Connected (Client)');
+    const date = new Date();
+    ping = date.getTime();
+    socket.send(JSON.stringify({command:"PING"}));
     CelarInit();
 }
 
@@ -65,6 +69,13 @@ const socket_message = (e) => {
                 showModal(REGISTER_HTML, "1");
             }
         }
+        else if (data.action == "PING")
+        {
+            const date = new Date();
+            ping = ping - date.getTime(); // サーバーとのping
+            gap = Number(data.content) - date.getTime() + (ping/2); // サーバー時間とクライアント時間のずれ（ms）
+            console.info(`・サーバーとのPing値\n${ping}ms\n\n・サーバー時間とクライアント時間のズレ\n${gap}ms`);
+        }
         else if (data.action == "CLOSE")
         {
             if (data.content == "CloseBecauseNewConnection")
@@ -86,12 +97,22 @@ const socket_message = (e) => {
         else if (data.action == "FETCH")
         {
             console.info(data.content);
+            const nowTime = new Date();
             for (const uid of Object.keys(data.content))
             {
                 if (!(uid in markers)) { continue; }
                 const location = data.content[uid];
                 const marker = markers[uid];
+                markers[uid].location = location;
                 marker.setLatLng({ lat: location[0], lng: location[1]});
+                if (location[3] >= nowTime.getTime() + gap - 5 * 1000)
+                {
+                    marker.getElement().children[0].children[0].className = "map-icon marker-online";
+                }
+                else
+                {
+                    marker.getElement().children[0].children[0].className = "map-icon marker-offline";
+                }
                 marker.getElement().children[0].children[1].innerHTML = getSpeed(location[2]);
                 /// How to set speed data to marker...???
                 /// => marker.getElement()...
@@ -139,6 +160,7 @@ const socket_message = (e) => {
                     }),
                 }).addTo(map)
                 .on('click', userPopup);
+                Object.assign(markers[user.uid], user);
             }
 
             main_marker = markers[account.uid];
