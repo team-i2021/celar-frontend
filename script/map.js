@@ -43,14 +43,22 @@ function setLocation() {
 
 function userPopup(e) {
     const uid = e.target.options.icon.options.uid;
-    const user = markers[uid];
-    const lastDate = new Date(user.location[3]);
-    showModal(`
+    if (uid !== account.uid){
+        const user = markers[uid];
+        const lastDate = new Date(user.location[3]);
+        showModal(`
 <h2>${user.uid}</h2>
 <div>最終オンライン:${lastDate.toLocaleString()}</div>
 <button onclick="hideModal('2')">Close</button>
 `, '2')
-    console.log(user)
+        console.log(user);
+    } else {
+        showModal(`
+<h2>${uid}</h2>
+<div>This is your account!</div>
+<button onclick="hideModal('2')">Close</button>
+`, "2")
+   }
 }
 
 function positionReset() {

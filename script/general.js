@@ -1,4 +1,4 @@
-const VERSION = "v0.9.2"
+const VERSION = "beta2..3:WORKING:Dark theme"
 
 let account = {}
 

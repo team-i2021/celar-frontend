@@ -72,7 +72,7 @@ const socket_message = (e) => {
         else if (data.action == "PING")
         {
             const date = new Date();
-            ping = ping - date.getTime(); // サーバーとのping
+            ping = date.getTime() - ping; // サーバーとのping
             gap = Number(data.content) - date.getTime() + (ping/2); // サーバー時間とクライアント時間のずれ（ms）
             console.info(`・サーバーとのPing値\n${ping}ms\n\n・サーバー時間とクライアント時間のズレ\n${gap}ms`);
         }

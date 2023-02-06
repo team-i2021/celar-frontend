@@ -31,3 +31,8 @@
 .marker-offline {
     filter: grayscale(1);
 }
+
+.leaflet-tile-pane img {
+    /* Looks like dark theme */
+    filter: grayscale(1) invert(1);
+}
